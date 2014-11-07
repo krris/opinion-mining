@@ -8,6 +8,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import io.github.krris.qlearning.utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,8 +32,9 @@ public class WebWithOpinionCrawler extends WebCrawler {
      */
     @Override
     public boolean shouldVisit(WebURL url) {
+        boolean parentDecision = super.shouldVisit(url);
         String href = url.getURL().toLowerCase();
-        return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ceneo.pl/");
+        return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ceneo.pl/") && parentDecision;
     }
 
     /**
@@ -60,30 +62,9 @@ public class WebWithOpinionCrawler extends WebCrawler {
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String html = htmlParseData.getHtml();
-            saveToFile(html, Integer.toString(docId));
+            Utils.saveToFile(html, WEBSITES_DIR_PATH, Integer.toString(docId) + ".html");
         }
 
         System.out.println("=============");
-    }
-
-    private void saveToFile(String html, String filename) {
-        createDirIfDoesNotExist(WEBSITES_DIR_PATH);
-        try {
-            Files.write(Paths.get(WEBSITES_DIR_PATH + filename + ".html"), html.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createDirIfDoesNotExist(String websitesDirPath) {
-        Path directoryPath = Paths.get(websitesDirPath);
-
-        if (!Files.exists(directoryPath)) {
-            try {
-                Files.createDirectory(directoryPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

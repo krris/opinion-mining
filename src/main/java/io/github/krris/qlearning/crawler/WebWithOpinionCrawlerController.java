@@ -52,7 +52,7 @@ public class WebWithOpinionCrawlerController {
      * You can set the maximum number of pages to crawl. The default value
      * is -1 for unlimited number of pages
      */
-    config.setMaxPagesToFetch(1000);
+    config.setMaxPagesToFetch(500);
 
     /*
      * Do you need to set a proxy? If so, you can use:
@@ -87,7 +87,13 @@ public class WebWithOpinionCrawlerController {
      */
     controller.addSeed("http://www.ceneo.pl");
     controller.addSeed("http://www.ceneo.pl/Filmy");
+    // Films with the worst rating.
+    controller.addSeed("http://www.ceneo.pl/Filmy;0113-0.htm");
     controller.addSeed("http://www.ceneo.pl/Komputery");
+    // Computers with the worst rating.
+    controller.addSeed("http://www.ceneo.pl/Komputery;0113-0.htm");
+    controller.addSeed("http://www.ceneo.pl/Budowa_i_remont;0113-0.htm");
+    controller.addSeed("http://www.ceneo.pl/Biuro_i_firma;0113-0.htm");
 
     /*
      * Start the crawl. This is a blocking operation, meaning that your code
