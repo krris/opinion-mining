@@ -30,8 +30,8 @@ public class OpinionExtractor {
     public static final String POSITIVE_DATA = "training-data/positive/positive-data.csv";
     public static final String NEGATIVE_DATA = "training-data/negative/negative-data.csv";
 
-    private static final String NEGATIVE = "negative";
-    private static final String POSITIVE = "positive";
+    public static final String NEGATIVE = "negative";
+    public static final String POSITIVE = "positive";
 
     private static final String REVIEW_HTML_TAG = "product-review-body";
     private static final String REVIEW_SCORE_HTML_TAG = "product-review-score";
