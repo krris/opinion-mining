@@ -22,13 +22,21 @@ import java.util.Set;
  */
 public class OpinionExtractor {
 
-    public static final String POSITIVE_DATA = "training-data/positive/positive-data.csv";
-    public static final String NEGATIVE_DATA = "training-data/negative/negative-data.csv";
-
     private List<String[]> positiveData = new ArrayList<>();
     private List<String[]> negativeData = new ArrayList<>();
 
     private static final double REVIEW_SCORE_TRESHOLD = 3.00;
+
+    public static final String POSITIVE_DATA = "training-data/positive/positive-data.csv";
+    public static final String NEGATIVE_DATA = "training-data/negative/negative-data.csv";
+
+    private static final String NEGATIVE = "negative";
+    private static final String POSITIVE = "positive";
+
+    private static final String REVIEW_HTML_TAG = "product-review-body";
+    private static final String REVIEW_SCORE_HTML_TAG = "product-review-score";
+
+    private static final String WEBSITE = "http://www.ceneo.pl";
 
     public static void main(String[] args) {
         OpinionExtractor opinionExtractor = new OpinionExtractor();
@@ -49,10 +57,10 @@ public class OpinionExtractor {
         int textId = 1;
 
         for (Path file : stream) {
-            Document doc = Jsoup.parse(file.toFile(), "UTF-8", "http://www.ceneo.pl");
+            Document doc = Jsoup.parse(file.toFile(), "UTF-8", WEBSITE);
 
-            Elements reviewScores = doc.getElementsByClass("product-review-score");
-            Elements reviews = doc.getElementsByClass("product-review-body");
+            Elements reviewScores = doc.getElementsByClass(REVIEW_SCORE_HTML_TAG);
+            Elements reviews = doc.getElementsByClass(REVIEW_HTML_TAG);
 
             assert reviewScores.size() == reviews.size();
 
@@ -66,7 +74,7 @@ public class OpinionExtractor {
                 // text
                 dataContent[textId] = reviews.get(i).text();
 
-                if (dataContent[sentimentId].equals("negative")) {
+                if (dataContent[sentimentId].equals(NEGATIVE)) {
                     negativeData.add(dataContent);
                 } else {
                     positiveData.add(dataContent);
@@ -93,9 +101,9 @@ public class OpinionExtractor {
 
     private String isReviewScorePositive(String reviewScoreHtml) {
         if (extractReviewScore(reviewScoreHtml) >= REVIEW_SCORE_TRESHOLD) {
-            return "positive";
+            return POSITIVE;
         }
-        return "negative";
+        return NEGATIVE;
     }
 
     /**
