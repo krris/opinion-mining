@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by krris on 06.11.14.
@@ -26,6 +27,8 @@ public class OpinionExtractor {
 
     private List<String[]> positiveData = new ArrayList<>();
     private List<String[]> negativeData = new ArrayList<>();
+
+    private static final double REVIEW_SCORE_TRESHOLD = 3.00;
 
     public static void main(String[] args) {
         OpinionExtractor opinionExtractor = new OpinionExtractor();
@@ -48,25 +51,28 @@ public class OpinionExtractor {
         for (Path file : stream) {
             Document doc = Jsoup.parse(file.toFile(), "UTF-8", "http://www.ceneo.pl");
 
-            Elements elements = doc.getElementsByClass("product-review-summary");
+            Elements reviewScores = doc.getElementsByClass("product-review-score");
             Elements reviews = doc.getElementsByClass("product-review-body");
 
-            assert elements.size() == reviews.size();
+            assert reviewScores.size() == reviews.size();
 
-            for (int i = 0; i < elements.size(); i++) {
+            for (int i = 0; i < reviewScores.size(); i++) {
                 int columns = 2;
                 String[] dataContent = new String[columns];
 
                 // sentiment
-                dataContent[sentimentId] = elements.get(i).text();
+                String reviewScoreElement = reviewScores.get(i).text();
+                dataContent[sentimentId] = isReviewScorePositive(reviewScoreElement);
                 // text
                 dataContent[textId] = reviews.get(i).text();
 
-                if (dataContent[sentimentId].equals("Nie polecam")) {
+                if (dataContent[sentimentId].equals("negative")) {
                     negativeData.add(dataContent);
                 } else {
                     positiveData.add(dataContent);
                 }
+
+                System.out.println(dataContent[0] + ": " + dataContent[1]);
             }
         }
     }
@@ -85,46 +91,31 @@ public class OpinionExtractor {
         Files.write(Paths.get(POSITIVE_DATA), positive.getBytes());
     }
 
-//    public static void main(String[] args) throws IOException {
-//
-//        int columns = 2;
-//        String[] dataContent = new String[columns];
-//
-//        CSVWriter positiveWriter = new CSVWriter(new FileWriter(POSITIVE_DATA), ',');
-//        CSVWriter negativeWriter = new CSVWriter(new FileWriter(NEGATIVE_DATA), ',');
-//
-//        Path path = Paths.get(WebWithOpinionCrawler.WEBSITES_DIR_PATH);
-//        DirectoryStream<Path> stream = Files.newDirectoryStream(path);
-//
-//        int sentimentId = 0;
-//        int textId = 1;
-//
-//        for (Path file : stream) {
-//            Document doc = Jsoup.parse(file.toFile(), "UTF-8", "http://www.ceneo.pl");
-//
-//            Elements elements = doc.getElementsByClass("product-review-summary");
-//            Elements reviews = doc.getElementsByClass("product-review-body");
-//
-//            assert elements.size() == reviews.size();
-//
-//            for (int i = 0; i < elements.size(); i++) {
-//                // sentiment
-//                dataContent[sentimentId] = elements.get(i).text();
-//                // text
-//                dataContent[textId] = reviews.get(i).text().replace(",", " ");
-//
-//                if (dataContent[sentimentId].equals("Polecam")) {
-//                    positiveWriter.writeNext(dataContent);
-//                } else {
-//                    negativeWriter.write
-//                }
-//                writer.writeNext(dataContent);
-//
-////                dataContent += "\n" + sentiment + ", " + reviews.get(i).text().replace(",", " ");
-////                System.out.println(elements.get(i).text());
-////                System.out.println(reviews.get(i).text());
-////                System.out.println("=============");
-//            }
-//        }
-//    }
+    private String isReviewScorePositive(String reviewScoreHtml) {
+        if (extractReviewScore(reviewScoreHtml) >= REVIEW_SCORE_TRESHOLD) {
+            return "positive";
+        }
+        return "negative";
+    }
+
+    /**
+     * Extract review score from following html:
+     *
+    "<dl class=\"product-review-score\">\n" +
+                "\t<dt class=\"screen-reader-text\">Ocena:</dt>\n" +
+                "\t<dd>\n" +
+                "\t\t<span class=\"score-container js_score-container\">\n" +
+                "\t<span class=\"score-marker\" style=\"width: 100.00%;\"></span>\n" +
+                "</span>  \n" +
+                "\n" +
+                "        5,00\n" +
+                "\t</dd>\n" +
+                "</dl>";
+     */
+    private double extractReviewScore(String string) {
+        String pattern = "(.*)([0-9],[0-9]{2})(.*)";
+        String number = string.replaceAll("\\s+","").replaceAll(pattern, "$2");
+        number = number.replaceAll(",", ".");
+        return Double.parseDouble(number);
+    }
 }

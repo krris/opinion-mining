@@ -38,7 +38,7 @@ public class SentimentClassifier {
     }
 
     public void train(String trainingDataDirPath) {
-        int nGram = 7; //the nGram level, any value between 7 and 12 works
+        int nGram = 4;
         File trainingDataDir = new File(trainingDataDirPath);
         String[] categories = trainingDataDir.list();
         LMClassifier lmClassifier = DynamicLMClassifier.createNGramProcess(categories, nGram);
@@ -82,6 +82,4 @@ public class SentimentClassifier {
         ConditionalClassification classification = this.lmClassifier.classify(text);
         return classification.bestCategory();
     }
-
-
 }

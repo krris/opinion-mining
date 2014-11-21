@@ -12,6 +12,19 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  */
 public class WebWithOpinionCrawlerController {
 
+    private static final String[] WEBSITES = {
+            "http://www.ceneo.pl",
+            "http://www.ceneo.pl/Komputery",
+            "http://www.ceneo.pl/Filmy",
+
+            "http://www.ceneo.pl/Komputery;0113-0.htm",         // Computers with the worst rating.
+            "http://www.ceneo.pl/Filmy;0113-0.htm",         // Films with the worst rating
+            "http://www.ceneo.pl/Gry;0113-0.htm",           // Games with the worst rating
+            "http://www.ceneo.pl/Telefony_komorkowe;0113-0.htm", // Mobile phones with the worst rating
+            "http://www.ceneo.pl/Hobby;0113-0.htm",
+            "http://www.ceneo.pl/Ksiazki;0113-0.htm"
+    };
+
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
             System.out.println("Needed parameters: ");
@@ -52,7 +65,7 @@ public class WebWithOpinionCrawlerController {
      * You can set the maximum number of pages to crawl. The default value
      * is -1 for unlimited number of pages
      */
-    config.setMaxPagesToFetch(500);
+    config.setMaxPagesToFetch(2000);
 
     /*
      * Do you need to set a proxy? If so, you can use:
@@ -85,15 +98,9 @@ public class WebWithOpinionCrawlerController {
      * URLs that are fetched and then the crawler starts following links
      * which are found in these pages
      */
-    controller.addSeed("http://www.ceneo.pl");
-    controller.addSeed("http://www.ceneo.pl/Filmy");
-    // Films with the worst rating.
-    controller.addSeed("http://www.ceneo.pl/Filmy;0113-0.htm");
-    controller.addSeed("http://www.ceneo.pl/Komputery");
-    // Computers with the worst rating.
-    controller.addSeed("http://www.ceneo.pl/Komputery;0113-0.htm");
-    controller.addSeed("http://www.ceneo.pl/Budowa_i_remont;0113-0.htm");
-    controller.addSeed("http://www.ceneo.pl/Biuro_i_firma;0113-0.htm");
+    for (String website : WEBSITES) {
+        controller.addSeed(website);
+    }
 
     /*
      * Start the crawl. This is a blocking operation, meaning that your code
