@@ -16,7 +16,6 @@ import java.io.IOException;
  * Copyright (c) 2014 krris. All rights reserved.
  */
 public class SentimentClassifier {
-    private String[] categories;
     private LMClassifier lmClassifier;
 
     public static final String SAVED_CLASSIFIER_PATH = "tmp/classifier.dat";
@@ -26,7 +25,6 @@ public class SentimentClassifier {
     public void loadClassifier() {
         File savedClassifier = new File(SAVED_CLASSIFIER_PATH);
         this.lmClassifier = loadClassifier(savedClassifier);
-        this.categories = this.lmClassifier.categories();
     }
 
     private LMClassifier loadClassifier(File savedClassifier) {
@@ -77,8 +75,10 @@ public class SentimentClassifier {
     }
 
     private void saveClassifier() {
+        File savedClassifier = new File(SAVED_CLASSIFIER_PATH);
+        savedClassifier.getParentFile().mkdirs();
         try {
-            AbstractExternalizable.compileTo((Compilable) this.lmClassifier, new File(SAVED_CLASSIFIER_PATH));
+            AbstractExternalizable.compileTo((Compilable) this.lmClassifier, savedClassifier);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -45,4 +45,13 @@ public class UserInterfaceTest {
         };
         OpinionMiner.main(arguments);
     }
+
+    @Test
+    public void trainTest() {
+        String[] arguments = {
+                "-useTrainingData", "training-data/",
+                "-train"
+        };
+        OpinionMiner.main(arguments);
+    }
 }
