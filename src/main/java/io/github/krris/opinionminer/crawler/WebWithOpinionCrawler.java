@@ -2,18 +2,14 @@
  * Created by krris on 06.11.14.
  * Copyright (c) 2014 krris. All rights reserved.
  */
-package io.github.krris.qlearning.crawler;
+package io.github.krris.opinionminer.crawler;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
-import io.github.krris.qlearning.utils.Utils;
+import io.github.krris.opinionminer.utils.Utils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 public class WebWithOpinionCrawler extends WebCrawler {

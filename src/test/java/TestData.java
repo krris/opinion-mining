@@ -1,11 +1,11 @@
-import io.github.krris.qlearning.OpinionMiner;
-import io.github.krris.qlearning.opinion.OpinionExtractor;
+import io.github.krris.opinionminer.OpinionMiner;
+import io.github.krris.opinionminer.opinion.OpinionExtractor;
 
 /**
  * Created by krris on 21.11.14.
  * Copyright (c) 2014 krris. All rights reserved.
  */
-public class OpinionMinerTest {
+public class TestData {
     public static final String[] POSITIVE_TEST_DATA = {
             "Wymiana 24h przez 7 dni w tygodniu to genialna opcja! :-)",
             "procesor dla swiadomych uzytkownikow. Wydajnosc niesamowita. PS. W sieci sa informacje o wadliwych egzemplarzach (grzanie sie). U mnie w idle 27st., po obciazeniu grami (Alien, Grid) max 57st. Chlodzenie nieboxowe. Plus dla intela za dorzucanie kluczy do gier i programow, ale poprzednia generacja miala tego wiecej.",
@@ -47,15 +47,17 @@ public class OpinionMinerTest {
             "Otrzymałam laptop z uszkodzoną matrycą. Odesłałam, a zamiast wymiany rozpoczęto proces reklamacji. Po 10 dniach czekania zażądałam zwrotu pieniędzy, które na szczęście zwrócono. Jednak nie bez kłótni. Nie polecam.",
             "sklep działa powolnie. Odbieranie zamówienia trwa dłużej niż deklarowane jest na stronie. Sposób odbioru CD-Key'a jest nieintuicyjny. Kontakt z obsługą działa również powoli. No i wreszcie puenta. Skyrim Legendary Edition na stronie jest opisane jako wersja polsko-języczna, a finalnie otrzymałem angielsko-języczną. Mądrzejszy o te wiedzę skorzystałbym z oferty tego sklepu wyłącznie w ostateczności bo finalnie wszystko się ułożyło, ale musiałem czekać 30 minut na e-mail, z grą w języku odmiennym od oferowanego.",
             "Moja ocena jest negatywna czekam na klucz już parę godzin i dalej nic kolega wysłał z tego samego banku dostał klucz po 5 min. a na dowód wpłaty nie wydają pierwszy i ostatni raz kupiłem tu klucz",
-            "Przedmiot niezgodny z opisem. Po odesłaniu bardzo słaby kontakt i długo realizowana reklamacja. Sprawa załatwiona niezgodnie z moja prośbą. ODRADZAM zakupy w AGITO.\n",
+            "Przedmiot niezgodny z opisem. Po odesłaniu bardzo słaby kontakt i długo realizowana reklamacja. Sprawa załatwiona niezgodnie z moja prośbą. ODRADZAM zakupy w AGITO.",
             "Nie polecam. Przelewy wysylane sa z zagranicznego rachunku w CHF, a kosztami obciaza sie odbiorce. W efekcie placi sie znacznie wiecej niz oszczednosc na kursie wymiany. Internetowykantor nie informuje o tym wyraznie podczas dokonywania transakcji.",
             "KantorOnline to faktycznie lipa. System nie działa, na zaksięgowanie zasilenie konta zamiast obiecanych maks. 30 min. czekałem ponad 10h. Zlecenie przelewu nie działa... tzn. działa tylko że pieniądze zniknęły... nie ma ich ani w serwisie, ani na rachunku w banku. Czekam już 4 dni, aż się gdziekolwiek pojawią. Kontakt z obsługą żaden: live chat: nikt się nie zgłasza, można sobie popisać samemu ze sobą infolinia: sama się rozłącza po tekście że rozmowy mogą być nagrywane email: olewka nikt nie odpisuje"
     };
 
+    private static final String TRAINING_DATA = "training-data/";
+
     public static void main(String[] args) {
         OpinionMiner opinionMiner = new OpinionMiner();
 //        opinionMiner.collectData();
-        opinionMiner.trainClassifier();
+        opinionMiner.trainClassifier(TRAINING_DATA);
 
         checkPositiveData(opinionMiner);
         System.out.println("=================================");

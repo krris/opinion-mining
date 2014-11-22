@@ -1,4 +1,4 @@
-package io.github.krris.qlearning.crawler;
+package io.github.krris.opinionminer.crawler;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -65,7 +65,7 @@ public class WebWithOpinionCrawlerController {
      * You can set the maximum number of pages to crawl. The default value
      * is -1 for unlimited number of pages
      */
-    config.setMaxPagesToFetch(2000);
+    config.setMaxPagesToFetch(500);
 
     /*
      * Do you need to set a proxy? If so, you can use:

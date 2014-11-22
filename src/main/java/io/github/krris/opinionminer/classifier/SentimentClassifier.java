@@ -1,4 +1,4 @@
-package io.github.krris.qlearning.classifier;
+package io.github.krris.opinionminer.classifier;
 
 import com.aliasi.classify.*;
 import com.aliasi.corpus.ObjectHandler;

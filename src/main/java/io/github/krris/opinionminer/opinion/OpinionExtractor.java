@@ -1,11 +1,10 @@
-package io.github.krris.qlearning.opinion;
+package io.github.krris.opinionminer.opinion;
 
-import io.github.krris.qlearning.crawler.WebWithOpinionCrawler;
+import io.github.krris.opinionminer.crawler.WebWithOpinionCrawler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -13,8 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 /**
  * Created by krris on 06.11.14.

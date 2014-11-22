@@ -1,4 +1,4 @@
-package io.github.krris.qlearning.utils;
+package io.github.krris.opinionminer.utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
