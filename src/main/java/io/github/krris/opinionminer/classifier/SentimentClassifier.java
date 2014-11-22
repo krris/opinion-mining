@@ -5,6 +5,8 @@ import com.aliasi.corpus.ObjectHandler;
 import com.aliasi.util.AbstractExternalizable;
 import com.aliasi.util.Compilable;
 import com.aliasi.util.Files;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,8 @@ public class SentimentClassifier {
 
     public static final String SAVED_CLASSIFIER_PATH = "tmp/classifier.dat";
 
+    private Logger logger = LoggerFactory.getLogger(SentimentClassifier.class);
+
     public void loadClassifier() {
         File savedClassifier = new File(SAVED_CLASSIFIER_PATH);
         this.lmClassifier = loadClassifier(savedClassifier);
@@ -30,6 +34,9 @@ public class SentimentClassifier {
         try {
             classifier = (LMClassifier) AbstractExternalizable.readObject(savedClassifier);
         } catch (IOException e) {
+            String message = "Classifier has to be trained before first use. Please provide training data and add " +
+                    "\"-train\" or call OpinionMiner.trainClassifier().";
+            logger.error(message, e);
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -79,6 +86,10 @@ public class SentimentClassifier {
     }
 
     public String classify(String text) {
+        if (this.lmClassifier == null) {
+            this.loadClassifier();
+        }
+
         ConditionalClassification classification = this.lmClassifier.classify(text);
         return classification.bestCategory();
     }

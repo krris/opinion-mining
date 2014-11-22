@@ -18,6 +18,9 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
     compile group: 'args4j', name: 'args4j', version: '2.0.29'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.7'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
     compile files('lib/lingpipe-4.1.0.jar')
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

@@ -4,6 +4,8 @@ import io.github.krris.opinionminer.classifier.SentimentClassifier;
 import io.github.krris.opinionminer.crawler.WebWithOpinionCrawlerController;
 import io.github.krris.opinionminer.opinion.OpinionExtractor;
 import org.apache.commons.cli.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -11,7 +13,7 @@ import org.apache.commons.cli.*;
  * Copyright (c) 2014 krris. All rights reserved.
  */
 public class OpinionMiner {
-    private SentimentClassifier classifier;
+    private SentimentClassifier classifier = new SentimentClassifier();;
 
     public static final String DEFAULT_TRAINING_DATA_DIR = "training-data/";
     private static final String TEMPORARY_DIR_FOR_WEB_CRAWLER = "tmp/";
@@ -21,6 +23,8 @@ public class OpinionMiner {
     private static final String USE_TRAINING_DATA = "useTrainingData";
     private static final String TRAIN_CLASSIFIER = "train";
     private static final String TEXT_TO_CLASSIFY = "classify";
+
+    private static Logger logger = LoggerFactory.getLogger(OpinionMiner.class);
 
     public static void main(String[] args) {
         OpinionMiner opinionMiner = new OpinionMiner();
@@ -45,10 +49,10 @@ public class OpinionMiner {
             e.printStackTrace();
         }
 
-        System.out.println(COLLECT_DATA + ": " + cmd.hasOption(COLLECT_DATA));
-        System.out.println(USE_TRAINING_DATA + ": " + cmd.getOptionValue(USE_TRAINING_DATA));
-        System.out.println(TRAIN_CLASSIFIER + ": " + cmd.hasOption(TRAIN_CLASSIFIER));
-        System.out.println(TEXT_TO_CLASSIFY + ": " + cmd.getOptionValue(TEXT_TO_CLASSIFY));
+        logger.debug(COLLECT_DATA + ": " + cmd.hasOption(COLLECT_DATA));
+        logger.debug(USE_TRAINING_DATA + ": " + cmd.getOptionValue(USE_TRAINING_DATA));
+        logger.debug(TRAIN_CLASSIFIER + ": " + cmd.hasOption(TRAIN_CLASSIFIER));
+        logger.debug(TEXT_TO_CLASSIFY + ": " + cmd.getOptionValue(TEXT_TO_CLASSIFY));
 
         if (cmd.hasOption(COLLECT_DATA)) {
             opinionMiner.collectData();
@@ -95,7 +99,6 @@ public class OpinionMiner {
     }
 
     public void trainClassifier(String trainingDataDir) {
-        this.classifier = new SentimentClassifier();
         classifier.train(trainingDataDir);
     }
 
