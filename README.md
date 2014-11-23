@@ -1,6 +1,7 @@
 # Opinion mining
 Opinion mining using information placed at web pages like Ceneo, eBay etc.
 This applications uses sentiment analysis to answer if given text is positive or negative.
+[LingPipe](http://alias-i.com/lingpipe/) library is used for text processing.
 
 ## Usage
 To run an application it is not necessary to build it on your own. You can use following jar: opinion-mining-1.0-all.jar
