@@ -2,7 +2,7 @@
 Opinion mining using information placed at web pages like Ceneo, eBay etc.
 This applications uses sentiment analysis to answer if given text is positive or negative.
 
-# Usage
+## Usage
 To run an application it is not necessary to build it on your own. You can use following jar: opinion-mining-1.0-all.jar
 which is placed in lib/ directory.
 
@@ -14,4 +14,5 @@ Available arguments:
 * `-train`
 * `-classify TEXT_TO_CLASSIFY`
 
+## Architecture
 ![alt text](images/architecture.png "Architecture")
